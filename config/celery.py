@@ -9,7 +9,7 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 app.autodiscover_tasks()
 app.conf.beat_schedule = {
-    'mytask_every_2min':{
+    'mytask_every_2sec':{
         'task':'home.tasks.mytask2',
         'schedule':2,
         'options':{
