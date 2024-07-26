@@ -6,7 +6,7 @@
 ## فهرست مطالب (Table of Contents)
 
 1. [نصب و راه‌اندازی](#installation)
-2. [نحوه استفاده](#usage)
+2. [مثال استفاده](#usage)
 3. [مشارکت](#contributing)
 4. [مجوز](#license)
 5. [اطلاعات تماس](#contact)
@@ -43,5 +43,54 @@ pip install celery
 راه اندازی worker
 ```sh
 celery -A config worker -l info
+```
+همچنین در فایل celery.py در روت اصلی پروژه کانفیگ celery را انجام میدیم:‌
+```sh
+from celery import Celery
+import os
+
+os.environ.setdefault('DLANGO_SETTING_MODULE','config.settings')
+
+app = Celery('config')
+
+app.config_from_object('django.conf:settings', namespace='CELERY')
+
+app.autodiscover_tasks()
+app.conf.beat_schedule = {
+    'mytask_every_2min':{
+        'task':'home.tasks.mytask2',
+        'schedule':2,
+        'options':{
+            'expires':10,
+        }
+    }
+}
+```
+و داخل تنظیمات پروژه مقادیر اولیه celery را مشخص می‌کنیم:
+```sh
+# Celery Configuration Options
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_DEFAULT_QUEUE = 'default'
+```
+
+در صورت علاقه‌مندی می‌توان از کتابخانه‌های زیر برای مدیریت بهتر تسک‌ها استفاده کرد 
+```sh
+pip install django-celery-beat==1.0.0
+pip install django-celery-results
+```
+
+##  مثال استفاده (usage)
+به منظور درگ بهتر، یک تابع مینویسیم که بعد از ده ثانیه فایلی را ایجاد می‌کند. همانطور که بعد از اجرا پروژه می‌بینیم بدون استفاده از celery بارگذاری کامل صفحه وب ۱۰ ثانیه طول می‌کشه اما در صورت از celery وظضیفه به صورت زمان بندی شده انجام میشه و صفحه در کسری از ثانیه هم بارگداری کامل می‌شود.
+تابع مورد نظر:
+```sh
+@app.task
+def mytask():
+    time.sleep(10)
+    open('namefile.txt' , 'w').close
 ```
 
