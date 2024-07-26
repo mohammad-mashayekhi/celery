@@ -36,4 +36,12 @@ redis-cli
 ```
 ![image](https://github.com/user-attachments/assets/630fb96e-4725-4250-babf-f7384ad0e16c)
 
+نصب celery
+```sh
+pip install celery
+```
+راه اندازی worker
+```sh
+celery -A config worker -l info
+```
 
