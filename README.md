@@ -16,6 +16,24 @@
 بعدز از ساخت پروژه در جنگو به نصب celery بپردازید.
 برای نصب و راه‌اندازی celery، مراحل زیر را دنبال کنید:
 
+نصب redis در windows
 ```sh
-git clone https://github.com/username/repository.git
+https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-windows/
+```
+نصب redis در linox
+```sh
+https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-linux/
+```
+نصب redis در macos
+```sh
+https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-mac-os/
+```
+به صورت کلی با دستور ترمینال به راحتی می‌توانید redis را در دستگاه خود نصب کنید. پس از آن با دستور redis-server می‌توانید مشخصات اولیه redis را ببینید.
+![image](https://github.com/user-attachments/assets/c83704c4-81bb-41cb-ba0e-3476297ab9cc)
+همچنین با دستور زیر می‌توانید از نصب درست redis مطمین شوید
+```sh
+redis-cli
+```
+![image](https://github.com/user-attachments/assets/630fb96e-4725-4250-babf-f7384ad0e16c)
+
 
