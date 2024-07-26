@@ -7,9 +7,8 @@
 
 1. [نصب و راه‌اندازی](#installation)
 2. [مثال استفاده](#usage)
-3. [مشارکت](#contributing)
-4. [مجوز](#license)
-5. [اطلاعات تماس](#contact)
+3. [تسک‌های زمان‌بندی شده](#scheduled_tasks)
+4. [اطلاعات تماس](#contact)
 
 ## نصب و راه‌اندازی (Installation)
 
@@ -80,7 +79,7 @@ CELERY_TASK_DEFAULT_QUEUE = 'default'
 
 در صورت علاقه‌مندی می‌توان از کتابخانه‌های زیر برای مدیریت بهتر تسک‌ها استفاده کرد 
 ```sh
-pip install django-celery-beat==1.0.0
+pip install django-celery-beat
 pip install django-celery-results
 ```
 
@@ -93,4 +92,27 @@ def mytask():
     time.sleep(10)
     open('namefile.txt' , 'w').close
 ```
+## تسک‌های زمان‌بندی شده (scheduled_tasks)
+
+برای فراخوانی یک تابع در هر ۲ ثانیه از celery beat استقاده می‌کنیم 
+```sh
+pip install django-celery-beat==1.0.0
+```
+در تنظیمات پروژه کتابخانه را معرفی می‌کنیم.
+سپس فایلی به نام tasks.py می‌سازیم و موارد زیر را در آن قرار می‌دهیم: 
+```sh
+from celery import shared_task
+
+@shared_task
+def mytask2():
+    file = open('task.txt','a')
+    file.write('hello')
+    file.close
+```
+برای اجرا نیاز به یک worker و beat داریم 
+```sh
+celery -A config worker -l info
+celery -A config beat -l info
+```
+
 
